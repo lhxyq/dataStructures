@@ -1,5 +1,7 @@
 package com.lh.graph;
 
+import java.util.List;
+
 /**
  * Created by LH 2446059046@qq.com on 2017/6/13.
  * <p>
@@ -26,16 +28,18 @@ public interface Graph<T> {
     /**
      * 深度优先遍历
      *
-     * @param start 起始顶点
+     * @param start  起始顶点
+     * @param result 排序结果
      * @return
      */
-    Object[] DFS(Object start);
+    void DFS(Object start, List<Object> result);
 
     /**
      * 广度优先遍历
      *
-     * @param start 起始顶点
+     * @param start  起始顶点
+     * @param result 排序结果
      * @return
      */
-    Object[] BFS(Object start);
+    void BFS(Object start, List<Object> result);
 }

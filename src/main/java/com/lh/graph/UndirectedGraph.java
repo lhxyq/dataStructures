@@ -1,5 +1,9 @@
 package com.lh.graph;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 /**
  * Created by LH 2446059046@qq.com on 2017/6/13.
  * <p>
@@ -23,6 +27,7 @@ public class UndirectedGraph<T> implements Graph<T> {
         T data;//顶点数据
         Edge firstEdge;//该顶点的第一条边
         double cost;//顶点的权重
+        boolean visited = false;
     }
 
     public Vertex[] vertices;//顶点数组
@@ -97,12 +102,50 @@ public class UndirectedGraph<T> implements Graph<T> {
         this.putEdgeToLast(vertices[pEnd], e1);
     }
 
-    public Object[] DFS(Object start) {
-        return new Object[0];
+    /**
+     * 递归的实现深度优先遍历
+     */
+    public void DFS(Object start, List<Object> result) {
+        if (null == start || ((Vertex) start).visited)
+            return;
+
+        result.add(start);
+        ((Vertex) start).visited = true;
+
+        Edge edge = ((Vertex) start).firstEdge;
+        while (null != edge) {
+            DFS(vertices[edge.position], result);
+            edge = edge.next;
+        }
     }
 
-    public Object[] BFS(Object start) {
-        return new Object[0];
+    /**
+     * 利用队列实现广度优先遍历
+     *
+     * @param start  起始顶点
+     * @param result 排序结果
+     */
+    public void BFS(Object start, List<Object> result) {
+        Queue<Vertex> queue = new LinkedList<>();//顶点队列
+
+        queue.offer((Vertex) start);
+
+        while (!queue.isEmpty()) {
+            Vertex vertex = queue.poll();
+            if (!vertex.visited) {
+                result.add(vertex);
+                vertex.visited = true;
+
+                Edge edge = vertex.firstEdge;
+                while (null != edge) {
+                    Vertex nextVertex = vertices[edge.position];
+                    if (!nextVertex.visited)
+                        queue.offer(nextVertex);
+
+                    edge = edge.next;
+                }
+            }
+        }
     }
 
     /**
